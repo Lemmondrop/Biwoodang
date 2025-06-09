@@ -5,7 +5,7 @@ from io import BytesIO
 import firebase_admin
 from firebase_admin import credentials, storage, firestore
 
-# 1. Firebase 초기화
+# Firebase 초기화
 cred = credentials.Certificate(
     "FIREBASE JSON FILE PATH"
 )
@@ -15,13 +15,10 @@ firebase_admin.initialize_app(
 db = firestore.client()
 bucket = storage.bucket()
 
-# 2. 컬럼 매핑 및 필드 타입 변환 함수는 기존 그대로 사용
-# column_map 및 convert_fields 정의는 생략 (이미 제공하셨으므로)
-
-# 3. CSV 불러오기
+# CSV 불러오기
 df = pd.read_csv('YOUR .csv FILE PATH', encoding="utf-8-sig") # Replace with your actual .csv file path address
 
-# 4. 컬럼 매핑 딕셔너리
+# 컬럼 매핑 딕셔너리
 column_map = {
     "제품명": "product_name",
     "업체명": "manufacturer",
@@ -100,7 +97,7 @@ column_map = {
     "인증" : "zero_certification"
 }
 
-# 4. 숫자형 필드 변환 함수
+# 숫자형 필드 변환 함수
 def convert_fields(doc):
     numeric_fields = {
         "energy_kcal", "protein_g", "fat_g", "carbs_g", "sugar_g", "fiber_g",
@@ -128,21 +125,21 @@ def convert_fields(doc):
             except (ValueError, TypeError):
                 doc[field] = None
     return doc
-# 5. Firestore 기존 문서 전체 불러오기
+# Firestore 기존 문서 전체 불러오기
 product_docs = db.collection("products").stream()
 firestore_products = {doc.id: doc.to_dict() for doc in product_docs}
 
-# 🔍 image_url 빠른 매핑용 dict 생성 (제품명 → image_url)
+# image_url 빠른 매핑용 dict 생성 (제품명 → image_url)
 product_name_to_image_url = {
     data.get("product_name", ""): data.get("image_url", "")
     for data in firestore_products.values()
     if "image_url" in data
 }
 
-# 6. CSV 기준 남길 제품명 목록
+# CSV 기준 남길 제품명 목록
 csv_product_names = df["제품명"].dropna().tolist()
 
-# 7. Firestore 삭제 대상 판별 및 삭제
+# Firestore 삭제 대상 판별 및 삭제
 product_ids_to_delete = [
     doc_id for doc_id, data in firestore_products.items()
     if data.get("product_name", "") not in csv_product_names
@@ -154,7 +151,7 @@ for doc_id in product_ids_to_delete:
     except Exception as e:
         print(f"[삭제 실패] {doc_id} - {e}")
 
-# 8. 재업로드 (product_0부터 넘버링)
+# 재업로드 (product_0부터 넘버링)
 for new_index, (_, row) in enumerate(tqdm(df.iterrows(), total=len(df), desc="업데이트 진행")):
     try:
         product_name = row.get("제품명", "")

@@ -1,15 +1,11 @@
-import requests
-import time
-import os
 import pandas as pd
 import numpy as np
-import random
 from tqdm import tqdm
 from io import BytesIO
 import firebase_admin
 from firebase_admin import credentials, storage, firestore
 
-# 1. Firebase 초기화
+# Firebase 초기화
 cred = credentials.Certificate(
     "FIREBASE JSON FILE PATH"
 )
@@ -19,13 +15,10 @@ firebase_admin.initialize_app(
 db = firestore.client()
 bucket = storage.bucket()
 
-# 2. 컬럼 매핑 및 필드 타입 변환 함수는 기존 그대로 사용
-# column_map 및 convert_fields 정의는 생략 (이미 제공하셨으므로)
-
-# 3. CSV 불러오기
+# CSV 불러오기
 df = pd.read_csv('YOUR .csv FILE PATH', encoding="utf-8-sig") # Replace with your actual .csv file path address
 
-# 4. 컬럼 매핑 딕셔너리
+# 컬럼 매핑 딕셔너리
 column_map = {
     "제품명": "product_name",
     "업체명": "manufacturer",
@@ -104,7 +97,7 @@ column_map = {
     "인증" : "zero_certification"
 }
 
-# 4. 숫자형 필드 변환 함수
+# 숫자형 필드 변환 함수
 def convert_fields(doc):
     numeric_fields = {
         "energy_kcal", "protein_g", "fat_g", "carbs_g", "sugar_g", "fiber_g",
@@ -143,7 +136,7 @@ def convert_fields(doc):
 # 시작 인덱스 설정
 start_index = 0  # 0-based index
 
-# 4. 업로드 루프
+# 업로드 루프
 for index, row in tqdm(df.iloc[:start_index].iterrows(), total=len(df) - start_index, desc="업로드 진행"):
     try:
         product_id = f"product_{index}"
@@ -182,7 +175,7 @@ for index, row in tqdm(df.iloc[:start_index].iterrows(), total=len(df) - start_i
 print("작업 완료!")
 
 # 기본 이미지로 image_url 필드 채우기기
-# 2. 설정
+# 설정
 placeholder_url = "FIREBASE STORAGE PATH PUT IN HERE" # Replace with your actual firebase storage folder path address
 collection_name = "products"
 batch_size = 500
