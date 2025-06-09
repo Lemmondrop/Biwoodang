@@ -13,7 +13,6 @@ jpype1==1.5.2
 jamo==0.4.1
 
 rapidfuzz==3.13.0
-fastapi-utils
 typing-inspect
 typing-extensions
 pympler
