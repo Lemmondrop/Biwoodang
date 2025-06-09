@@ -1,0 +1,17 @@
+# 파이썬 캐시 및 컴파일 파일
+__pycache__/
+*.pyc
+
+# 데이터 파일
+*.csv
+*.json
+
+# Jupyter notebook 체크포인트
+.ipynb_checkpoints/
+
+# 가상환경
+.venv/
+venv/
+
+# 환경 설정
+.env
