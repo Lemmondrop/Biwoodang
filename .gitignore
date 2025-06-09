@@ -4,7 +4,6 @@ __pycache__/
 
 # 데이터 파일
 *.csv
-*.json
 
 # Jupyter notebook 체크포인트
 .ipynb_checkpoints/
