@@ -18,13 +18,13 @@
   <tr>
     <th style="padding: 10px; font-size: 16px;">👨‍💻 신우철</th>
     <th style="padding: 10px; font-size: 16px;">📱 양동현</th>
-    <th style="padding: 10px; font-size: 16px;">🎨 박소하</th>
+    <th style="padding: 10px; font-size: 16px;">💡 박소하</th>
     <th style="padding: 10px; font-size: 16px;">📊 박채윤</th>
   </tr>
   <tr>
-    <td align="center" style="padding: 10px; font-size: 14px;"><strong>데이터 전처리<br>& API 구현</strong></td>
+    <td align="center" style="padding: 10px; font-size: 14px;"><strong>데이터 전처리 &<br> API 구현</strong></td>
     <td align="center" style="padding: 10px; font-size: 14px;"><strong>APP 개발</strong></td>
-    <td align="center" style="padding: 10px; font-size: 14px;"><strong>UI 디자인<br>& 기획</strong></td>
+    <td align="center" style="padding: 10px; font-size: 14px;"><strong>기획 & <br>UI 디자인</strong></td>
     <td align="center" style="padding: 10px; font-size: 14px;"><strong>데이터 시각화</strong></td>
   </tr>
 </table>
